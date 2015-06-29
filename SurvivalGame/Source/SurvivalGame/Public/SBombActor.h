@@ -13,7 +13,7 @@ class SURVIVALGAME_API ASBombActor : public ASUsableActor
 {
 	GENERATED_UCLASS_BODY()
 
-	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+	virtual void Destroyed() override;
 
 	UPROPERTY(VisibleDefaultsOnly)
 	UParticleSystemComponent* ExplosionPCS;

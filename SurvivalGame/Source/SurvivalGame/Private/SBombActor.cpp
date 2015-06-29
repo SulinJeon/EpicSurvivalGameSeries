@@ -35,9 +35,9 @@ ASBombActor::ASBombActor(const class FObjectInitializer& ObjectInitializer)
 }
 
 
-void ASBombActor::EndPlay(const EEndPlayReason::Type EndPlayReason)
+void ASBombActor::Destroyed()
 {
-	Super::EndPlay(EndPlayReason);
+	Super::Destroyed();
 
 	// Ensure the fuze timer is cleared
 	GetWorld()->GetTimerManager().ClearTimer(FuzeTimerHandle);
