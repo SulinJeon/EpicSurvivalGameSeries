@@ -209,7 +209,7 @@ ASUsableActor* ASCharacter::GetUsableInView()
 	TraceParams.bTraceComplex = false;
 
 	FHitResult Hit(ForceInit);
-	GetWorld()->LineTraceSingle(Hit, TraceStart, TraceEnd, ECC_Visibility, TraceParams);
+	GetWorld()->LineTraceSingleByChannel(Hit, TraceStart, TraceEnd, ECC_Visibility, TraceParams);
 
 	//DrawDebugLine(GetWorld(), TraceStart, TraceEnd, FColor::Red, false, 1.0f);
 
@@ -334,12 +334,6 @@ void ASCharacter::SetIsJumping(bool NewJumping)
 }
 
 
-void ASCharacter::OnLanded(const FHitResult& Hit)
-{
-	Super::OnLanded(Hit);
-
-	SetIsJumping(false);
-}
 
 void ASCharacter::ServerSetIsJumping_Implementation(bool NewJumping)
 {
@@ -555,7 +549,7 @@ void ASCharacter::SpawnDefaultInventory()
 		if (DefaultInventoryClasses[i])
 		{
 			FActorSpawnParameters SpawnInfo;
-			SpawnInfo.bNoCollisionFail = true;
+			SpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 			ASWeapon* NewWeapon = GetWorld()->SpawnActor<ASWeapon>(DefaultInventoryClasses[i], SpawnInfo);
 
 			AddWeapon(NewWeapon);
@@ -780,7 +774,7 @@ void ASCharacter::DropWeapon()
 		const FVector SpawnLocation = GetActorLocation() + (Direction * DropItemDistance);
 
 		FActorSpawnParameters SpawnInfo;
-		SpawnInfo.bNoCollisionFail = true;
+		SpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 		ASWeaponPickup* NewWeaponPickup = GetWorld()->SpawnActor<ASWeaponPickup>(CurrentWeapon->WeaponPickupClass, SpawnLocation, FRotator::ZeroRotator, SpawnInfo);
 
 		/* Apply torque to make it spin when dropped. */
